@@ -1,5 +1,7 @@
 package com.example.gsb_visite;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -13,6 +15,10 @@ public interface GSBServices {
     @POST("auth/login")
     Call<Visiteur> connectUser(@Body Visiteur visiteur);
 
-    @POST("visiteur/{id}")
+    @GET("visiteur/{id}")
     Call<Visiteur> getVisiteur(@Header("Authorization") String authorization, @Path("id") String id);
+
+    @GET("praticien")
+    Call<List<Praticien>> getPraticiens(@Header("Authorization") String authorization);
+
 }

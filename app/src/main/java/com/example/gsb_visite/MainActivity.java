@@ -2,6 +2,7 @@ package com.example.gsb_visite;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                             visiteur.setId(response.body().getId());
                             visiteur.setToken("Bearer " + response.body().getToken());
 
-                            // Une fois connecté, récupérer les détails du visiteur
                             Call<Visiteur> callGetVisiteur = service.getVisiteur(visiteur.getToken(), visiteur.getId());
                             callGetVisiteur.enqueue(new Callback<Visiteur>() {
                                 @Override
@@ -51,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
                                         visiteur.setTel(response.body().getTel());
                                         visiteur.setDate_embauche(response.body().getDate_embauche());
 
-                                        Toast.makeText(MainActivity.this, "Connexion réussie.", Toast.LENGTH_SHORT).show();
+                                        Intent myIntent = new Intent(MainActivity.this, Acceuil.class);
+                                        myIntent.putExtra("visiteur", visiteur);
+                                        startActivity(myIntent);
+
                                     } else {
                                         Toast.makeText(MainActivity.this, "Impossible de récupérer les détails du visiteur.", Toast.LENGTH_SHORT).show();
                                     }
