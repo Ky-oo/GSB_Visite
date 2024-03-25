@@ -50,17 +50,15 @@ public class Acceuil extends AppCompatActivity {
                         @Override
                         public void onClick(View view, int position) {
                             Praticien praticien = praticiens.get(position);
-                            Intent myIntent = new Intent(Acceuil.this, PraticienActivity.class);
+                            Intent myIntent = new Intent(getApplicationContext(), PraticienActivity.class);
                             myIntent.putExtra("praticien", praticien);
+                            myIntent.putExtra("token", visiteur.getToken());
                             startActivity(myIntent);
                         }
-
-                        @Override
-                        public void onLongClick(View view, int position) {
-                        }
-                    })
+                    }));
 
                 } else {
+
                 }
             }
 

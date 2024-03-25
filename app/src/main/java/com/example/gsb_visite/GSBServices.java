@@ -21,4 +21,9 @@ public interface GSBServices {
     @GET("praticien")
     Call<List<Praticien>> getPraticiens(@Header("Authorization") String authorization);
 
+    @GET("visite/praticien/{id}")
+    Call<List<Visite>> getVisiteByPraticien(@Header("Authorization") String authorization, @Path("id") String id);
+
+    @GET("motif/{id}")
+    Call<Motif> getMotifById(@Header("Authorization") String authorization, @Path("id") String id);
 }

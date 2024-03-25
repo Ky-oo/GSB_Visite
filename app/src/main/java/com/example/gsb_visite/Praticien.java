@@ -1,6 +1,11 @@
 package com.example.gsb_visite;
 
-public class Praticien {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Praticien implements Serializable {
+    @SerializedName("_id")
     private String id;
     private String nom;
     private String prenom;
