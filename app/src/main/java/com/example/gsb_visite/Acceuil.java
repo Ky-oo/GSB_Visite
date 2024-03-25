@@ -1,6 +1,7 @@
 package com.example.gsb_visite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +38,27 @@ public class Acceuil extends AppCompatActivity {
             public void onResponse(Call<List<Praticien>> call, Response<List<Praticien>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Praticien> praticiens = response.body();
+                    binding.recyclerViewPraticiens.setHasFixedSize(true);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                    binding.recyclerViewPraticiens.setLayoutManager(layoutManager);
+                    binding.recyclerViewPraticiens.setFocusable(false);
 
+                    RecyclerViewAdapter adapterPraticiens = new RecyclerViewAdapter(praticiens);
+                    binding.recyclerViewPraticiens.setAdapter(adapterPraticiens);
+
+                    binding.recyclerViewPraticiens.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), binding.recyclerViewPraticiens, new RecyclerViewClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            Praticien praticien = praticiens.get(position);
+                            Intent myIntent = new Intent(Acceuil.this, PraticienActivity.class);
+                            myIntent.putExtra("praticien", praticien);
+                            startActivity(myIntent);
+                        }
+
+                        @Override
+                        public void onLongClick(View view, int position) {
+                        }
+                    })
 
                 } else {
                 }

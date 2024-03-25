@@ -1,5 +1,6 @@
 package com.example.gsb_visite;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -7,41 +8,47 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
+    private List<Praticien> dataModelList;
+
+    public RecyclerViewAdapter(List<Praticien> dataModelList) {
+        this.dataModelList = dataModelList;
+    }
+
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        RecyclerViewHolder viewHolder;
+        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_praticien, parent, false);
+        viewHolder = new RecyclerViewHolder(view);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-
+        holder.textViewPraticienNom.setText(dataModelList.get(position).getNom());
+        holder.textViewPraticienPrenom.setText(dataModelList.get(position).getPrenom());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return dataModelList.size();
+    }
+
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewNom;
-        private TextView textViewPrenom;
-        private TextView textViewTel;
-        private TextView textViewEmail;
-        private TextView textViewRue;
-        private TextView textViewCodePostal;
-        private TextView textViewVille;
+        public TextView textViewPraticienNom;
+        public TextView textViewPraticienPrenom;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewNom = itemView.findViewById(R.id.textViewNom);
-            textViewPrenom = itemView.findViewById(R.id.textViewPrenom);
-            textViewTel = itemView.findViewById(R.id.textViewTel);
-            textViewEmail = itemView.findViewById(R.id.textViewEmail);
-            textViewRue = itemView.findViewById(R.id.textViewRue);
-            textViewCodePostal = itemView.findViewById(R.id.textViewCodePostal);
-            textViewVille = itemView.findViewById(R.id.textViewVille);
+            textViewPraticienNom = itemView.findViewById(R.id.textViewRecyclerPraticienNom);
+            textViewPraticienPrenom = itemView.findViewById(R.id.textViewRecyclerPraticienPrenom);
         }
     }
 }
