@@ -34,9 +34,8 @@ public class PraticienActivity extends AppCompatActivity {
         binding.textViewPraticienNom.setText(praticien.getNom() + " " + praticien.getPrenom());
         binding.textViewPraticienEmail.setText(praticien.getEmail());
         binding.textViewPraticienTelephone.setText(praticien.getTel());
-        String address =  praticien.getCode_postal() + " " + praticien.getVille();
         binding.textViewPraticienAdresse.setText(praticien.getRue());
-        binding.textViewPraticienVille.setText(address);
+        binding.textViewPraticienVille.setText(praticien.getVille());
 
         GSBServices service = RetrofitClientInstance.getRetrofitInstance().create(GSBServices.class);
         Call<List<Visite>> callGetVisiteByPraticien = service.getVisiteByPraticien(token, praticien.getId());
@@ -72,6 +71,13 @@ public class PraticienActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Visite>> call, Throwable t) {
                 Toast.makeText(PraticienActivity.this, "Get Visite failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.buttonPraticienReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

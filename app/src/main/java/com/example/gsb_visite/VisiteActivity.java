@@ -31,22 +31,11 @@ public class VisiteActivity extends AppCompatActivity {
         binding.textViewVisiteId.setText(visite.getId());
         binding.textViewVisiteCommentaire.setText(visite.getCommentaire());
 
-        GSBServices service = RetrofitClientInstance.getRetrofitInstance().create(GSBServices.class);
-        Call<Motif> callGetMotif = service.getMotifById(token, visite.getMotif());
-        callGetMotif.enqueue(new Callback<Motif>() {
+        binding.buttonVisiteReturn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<Motif> call, Response<Motif> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Motif motif = response.body();
-                    binding.textViewVisiteMotif.setText(motif.getLibelle());
-                    Toast.makeText(VisiteActivity.this, "Ok", Toast.LENGTH_SHORT).show();
-                }
+            public void onClick(View v) {
+                finish();
             }
-
-            @Override
-            public void onFailure(Call<Motif> call, Throwable t) {
-                Toast.makeText(VisiteActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
-            }
-    });
+        });
     }
 }

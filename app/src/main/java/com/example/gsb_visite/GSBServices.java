@@ -10,8 +10,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface GSBServices {
-    @GET("motif")
-    Call<Motif> getMotif();
     @POST("auth/login")
     Call<Visiteur> connectUser(@Body Visiteur visiteur);
 
