@@ -25,7 +25,7 @@ public class VisiteActivity extends AppCompatActivity {
 
         Intent myIntent = getIntent();
         Visite visite = (Visite) myIntent.getSerializableExtra("visite");
-        String token = myIntent.getSerializableExtra("token").toString();
+        Visiteur visiteur = (Visiteur) myIntent.getSerializableExtra("visiteur");
 
         binding.textViewVisiteDate.setText(visite.getDate());
         binding.textViewVisiteId.setText(visite.getId());

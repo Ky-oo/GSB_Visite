@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                                         visiteur.setTel(response.body().getTel());
                                         visiteur.setDate_embauche(response.body().getDate_embauche());
 
-                                        Intent myIntent = new Intent(MainActivity.this, Acceuil.class);
+                                        Intent myIntent = new Intent(MainActivity.this, AcceuilActivity.class);
                                         myIntent.putExtra("visiteur", visiteur);
                                         startActivity(myIntent);
 

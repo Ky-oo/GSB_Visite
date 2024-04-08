@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.gsb_visite.databinding.ActivityAcceuilBinding;
 import com.example.gsb_visite.databinding.ActivityPraticienBinding;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class PraticienActivity extends AppCompatActivity {
 
         Intent myIntent = getIntent();
         Praticien praticien = (Praticien) myIntent.getSerializableExtra("praticien");
-        String token = myIntent.getSerializableExtra("token").toString();
+        Visiteur visiteur = (Visiteur) myIntent.getSerializableExtra("visiteur");
 
         binding.textViewPraticienNom.setText(praticien.getNom() + " " + praticien.getPrenom());
         binding.textViewPraticienEmail.setText(praticien.getEmail());
@@ -38,7 +37,7 @@ public class PraticienActivity extends AppCompatActivity {
         binding.textViewPraticienVille.setText(praticien.getVille());
 
         GSBServices service = RetrofitClientInstance.getRetrofitInstance().create(GSBServices.class);
-        Call<List<Visite>> callGetVisiteByPraticien = service.getVisiteByPraticien(token, praticien.getId());
+        Call<List<Visite>> callGetVisiteByPraticien = service.getVisiteByPraticien(visiteur.getToken(), praticien.getId());
         callGetVisiteByPraticien.enqueue(new Callback<List<Visite>>() {
             @Override
             public void onResponse(Call<List<Visite>> call, Response<List<Visite>> response) {
@@ -58,7 +57,7 @@ public class PraticienActivity extends AppCompatActivity {
                             Visite visite = visites.get(position);
                             Intent myIntent = new Intent(getApplicationContext(), VisiteActivity.class);
                             myIntent.putExtra("visite", visite);
-                            myIntent.putExtra("token", token);
+                            myIntent.putExtra("visiteur", visiteur);
                             startActivity(myIntent);
                         }
                     }));
@@ -78,6 +77,16 @@ public class PraticienActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        binding.buttonCreateVisite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(), CreateVisiteActivity.class);
+                myIntent.putExtra("praticien", praticien);
+                myIntent.putExtra("visiteur", visiteur);
+                startActivity(myIntent);
             }
         });
     }

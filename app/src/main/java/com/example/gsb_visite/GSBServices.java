@@ -22,6 +22,6 @@ public interface GSBServices {
     @GET("visite/praticien/{id}")
     Call<List<Visite>> getVisiteByPraticien(@Header("Authorization") String authorization, @Path("id") String id);
 
-    @GET("motif/{id}")
-    Call<Motif> getMotifById(@Header("Authorization") String authorization, @Path("id") String id);
+    @POST("visite")
+    Call<Visite> createVisite(@Header("Authorization") String authorization, @Body String date_visite, @Body String commentaire, @Body String visiteur, @Body String praticien, @Body String motif);
 }

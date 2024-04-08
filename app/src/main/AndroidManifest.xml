@@ -16,13 +16,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".CreateVisiteActivity"
+            android:exported="false" />
+        <activity
             android:name=".VisiteActivity"
             android:exported="false" />
         <activity
             android:name=".PraticienActivity"
             android:exported="false" />
         <activity
-            android:name=".Acceuil"
+            android:name=".AcceuilActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
