@@ -1,20 +1,15 @@
 package com.example.gsb_visite;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.example.gsb_visite.databinding.ActivityCreateVisiteBinding;
-import com.example.gsb_visite.databinding.ActivityPraticienBinding;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,6 +19,7 @@ import retrofit2.Response;
 public class CreateVisiteActivity extends AppCompatActivity {
 
     private ActivityCreateVisiteBinding binding;
+    private Motif motifs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +32,20 @@ public class CreateVisiteActivity extends AppCompatActivity {
         Praticien praticien = (Praticien) myIntent.getSerializableExtra("praticien");
         Visiteur visiteur = (Visiteur) myIntent.getSerializableExtra("visiteur");
 
+        GSBServices service = RetrofitClientInstance.getRetrofitInstance().create(GSBServices.class);
+        Call<Motif> callMotifs = service.getMotifs(visiteur.getToken());
+        callMotifs.enqueue(new Callback<Motif>() {
+            @Override
+            public void onResponse(Call<Motif> call, Response<Motif> response) {
+                motifs = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<Motif> call, Throwable t) {
+                Toast.makeText(CreateVisiteActivity.this, "Erreur lors de la récupération des motifs" , Toast.LENGTH_SHORT).show();
+            }
+        });
+
         binding.buttonCreateVisiteReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,35 +57,32 @@ public class CreateVisiteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String dateString = binding.editTextDate.getText().toString();
-                String motif = binding.editTextMotif.getText().toString();
+                String motifLibelle = binding.editTextMotif.getText().toString();
                 String commentaire = binding.editTextCommentaire.getText().toString();
-
-                GSBServices service = RetrofitClientInstance.getRetrofitInstance().create(GSBServices.class);
 
                 VisiteRequest visiteRequest = new VisiteRequest();
                 visiteRequest.setDate(dateString);
-                visiteRequest.setMotif(motif);
                 visiteRequest.setCommentaire(commentaire);
-                visiteRequest.setPraticien(praticien.getId());
                 visiteRequest.setVisiteur(visiteur.getId());
+                visiteRequest.setPraticien(praticien.getId());
 
-                Call<Visite> callCreateVisite = service.createVisite(visiteur.getToken(), visiteRequest.getDate(), visiteRequest.getCommentaire(), visiteRequest.getVisiteur(), visiteRequest.getPraticien(), visiteRequest.getMotif());
-                callCreateVisite.enqueue(new Callback<Visite>() {
+                Call<VisiteRequest> callCreateVisite = service.createVisite(visiteur.getToken(), visiteRequest);
+                callCreateVisite.enqueue(new Callback<VisiteRequest>() {
                     @Override
-                    public void onResponse(Call<Visite> call, Response<Visite> response) {
+                    public void onResponse(Call<VisiteRequest> call, Response<VisiteRequest> response) {
                         Toast.makeText(CreateVisiteActivity.this, "Visite créée avec succès" , Toast.LENGTH_SHORT).show();
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("newVisite", visiteRequest);
+                        setResult(1, resultIntent);
                         finish();
                     }
 
                     @Override
-                    public void onFailure(Call<Visite> call, Throwable t) {
+                    public void onFailure(Call<VisiteRequest> call, Throwable t) {
                         Toast.makeText(CreateVisiteActivity.this, "Erreur lors de la création de la visite" , Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
             }
         });
-
     }
 }

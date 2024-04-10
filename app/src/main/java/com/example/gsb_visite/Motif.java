@@ -2,7 +2,9 @@ package com.example.gsb_visite;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Motif {
+import java.io.Serializable;
+
+public class Motif implements Serializable {
     @SerializedName("_id")
     private int id;
     @SerializedName("libelle")

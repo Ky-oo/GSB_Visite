@@ -1,5 +1,9 @@
 package com.example.gsb_visite;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -19,8 +23,26 @@ import retrofit2.Response;
 
 public class PraticienActivity extends AppCompatActivity {
     private ActivityPraticienBinding binding;
+    private SecondRecyclerViewAdapterVisite adapterVisites;
+    private List<Visite> visites;
+
+    private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+    new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == 1) {
+                Intent resultIntent = result.getData();
+                if (resultIntent != null) {
+                    Visite newVisite = (Visite) resultIntent.getSerializableExtra("newVisite");
+                    visites.add(newVisite);
+                    adapterVisites.notifyDataSetChanged();
+                }
+            }
+        }
+    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         binding = ActivityPraticienBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -54,18 +76,28 @@ public class PraticienActivity extends AppCompatActivity {
                     binding.recyclerViewVisites.addOnItemTouchListener(new SecondRecyclerTouchListener(getApplicationContext(), binding.recyclerViewVisites, new SecondRecyclerViewClickListener() {
                         @Override
                         public void onClick(View view, int position) {
+                            Intent myIntent = new Intent(PraticienActivity.this, CreateVisiteActivity.class);
                             Visite visite = visites.get(position);
-                            Intent myIntent = new Intent(getApplicationContext(), VisiteActivity.class);
                             myIntent.putExtra("visite", visite);
                             myIntent.putExtra("visiteur", visiteur);
-                            startActivity(myIntent);
+                            activityResultLauncher.launch(myIntent);
+
                         }
                     }));
 
                 } else {
                     Toast.makeText(PraticienActivity.this, "Get Visite failed", Toast.LENGTH_SHORT).show();
                 }
-                }
+                binding.buttonCreateVisite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent myIntent = new Intent(getApplicationContext(), CreateVisiteActivity.class);
+                        myIntent.putExtra("praticien", praticien);
+                        myIntent.putExtra("visiteur", visiteur);
+                        activityResultLauncher.launch(myIntent);
+                    }
+                });
+            }
 
             @Override
             public void onFailure(Call<List<Visite>> call, Throwable t) {
@@ -77,16 +109,6 @@ public class PraticienActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-
-        binding.buttonCreateVisite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(getApplicationContext(), CreateVisiteActivity.class);
-                myIntent.putExtra("praticien", praticien);
-                myIntent.putExtra("visiteur", visiteur);
-                startActivity(myIntent);
             }
         });
     }

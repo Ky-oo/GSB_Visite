@@ -2,13 +2,15 @@ package com.example.gsb_visite;
 
 import com.google.gson.annotations.SerializedName;
 
-public class VisiteRequest {
+import java.io.Serializable;
+
+public class VisiteRequest implements Serializable {
     @SerializedName("date_visite")
     private String date;
     private String commentaire;
     private String visiteur;
     private String praticien;
-    private String motif;
+    private Motif motif;
 
     public String getDate() {
         return date;
@@ -42,11 +44,11 @@ public class VisiteRequest {
         this.praticien = praticien;
     }
 
-    public String getMotif() {
+    public Motif getMotif() {
         return motif;
     }
 
-    public void setMotif(String motif) {
+    public void setMotif(Motif motif) {
         this.motif = motif;
     }
 }
