@@ -76,7 +76,7 @@ public class PraticienActivity extends AppCompatActivity {
                     binding.recyclerViewVisites.addOnItemTouchListener(new SecondRecyclerTouchListener(getApplicationContext(), binding.recyclerViewVisites, new SecondRecyclerViewClickListener() {
                         @Override
                         public void onClick(View view, int position) {
-                            Intent myIntent = new Intent(PraticienActivity.this, CreateVisiteActivity.class);
+                            Intent myIntent = new Intent(PraticienActivity.this, VisiteActivity.class);
                             Visite visite = visites.get(position);
                             myIntent.putExtra("visite", visite);
                             myIntent.putExtra("visiteur", visiteur);

@@ -10,9 +10,9 @@ public class Visite implements Serializable {
     @SerializedName("date_visite")
     private String date;
     private String commentaire;
-    private String visiteur;
-    private String praticien;
-    private String motif;
+    private Visiteur visiteur;
+    private Praticien praticien;
+    private Motif motif;
 
     public String getId() {
         return id;
@@ -38,27 +38,27 @@ public class Visite implements Serializable {
         this.commentaire = commentaire;
     }
 
-    public String getVisiteur() {
+    public Visiteur getVisiteur() {
         return visiteur;
     }
 
-    public void setVisiteur(String visiteur) {
+    public void setVisiteur(Visiteur visiteur) {
         this.visiteur = visiteur;
     }
 
-    public String getPraticien() {
+    public Praticien getPraticien() {
         return praticien;
     }
 
-    public void setPraticien(String praticien) {
+    public void setPraticien(Praticien praticien) {
         this.praticien = praticien;
     }
 
-    public String getMotif() {
+    public Motif getMotif() {
         return motif;
     }
 
-    public void setMotif(String motif) {
+    public void setMotif(Motif motif) {
         this.motif = motif;
     }
 }

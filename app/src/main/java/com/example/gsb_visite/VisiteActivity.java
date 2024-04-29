@@ -30,6 +30,7 @@ public class VisiteActivity extends AppCompatActivity {
         binding.textViewVisiteDate.setText(visite.getDate());
         binding.textViewVisiteId.setText(visite.getId());
         binding.textViewVisiteCommentaire.setText(visite.getCommentaire());
+        binding.textViewVisiteMotif.setText(visite.getMotif().getLibelle());
 
         binding.buttonVisiteReturn.setOnClickListener(new View.OnClickListener() {
             @Override

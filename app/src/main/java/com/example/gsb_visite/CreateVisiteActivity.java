@@ -32,20 +32,6 @@ public class CreateVisiteActivity extends AppCompatActivity {
         Praticien praticien = (Praticien) myIntent.getSerializableExtra("praticien");
         Visiteur visiteur = (Visiteur) myIntent.getSerializableExtra("visiteur");
 
-        GSBServices service = RetrofitClientInstance.getRetrofitInstance().create(GSBServices.class);
-        Call<Motif> callMotifs = service.getMotifs(visiteur.getToken());
-        callMotifs.enqueue(new Callback<Motif>() {
-            @Override
-            public void onResponse(Call<Motif> call, Response<Motif> response) {
-                motifs = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<Motif> call, Throwable t) {
-                Toast.makeText(CreateVisiteActivity.this, "Erreur lors de la récupération des motifs" , Toast.LENGTH_SHORT).show();
-            }
-        });
-
         binding.buttonCreateVisiteReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +51,9 @@ public class CreateVisiteActivity extends AppCompatActivity {
                 visiteRequest.setCommentaire(commentaire);
                 visiteRequest.setVisiteur(visiteur.getId());
                 visiteRequest.setPraticien(praticien.getId());
+                visiteRequest.setMotif(motifLibelle);
 
+                GSBServices service = RetrofitClientInstance.getRetrofitInstance().create(GSBServices.class);
                 Call<VisiteRequest> callCreateVisite = service.createVisite(visiteur.getToken(), visiteRequest);
                 callCreateVisite.enqueue(new Callback<VisiteRequest>() {
                     @Override

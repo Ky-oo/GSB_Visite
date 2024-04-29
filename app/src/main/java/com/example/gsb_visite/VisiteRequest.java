@@ -10,7 +10,7 @@ public class VisiteRequest implements Serializable {
     private String commentaire;
     private String visiteur;
     private String praticien;
-    private Motif motif;
+    private String motif;
 
     public String getDate() {
         return date;
@@ -44,11 +44,11 @@ public class VisiteRequest implements Serializable {
         this.praticien = praticien;
     }
 
-    public Motif getMotif() {
+    public String getMotif() {
         return motif;
     }
 
-    public void setMotif(Motif motif) {
+    public void setMotif(String motif) {
         this.motif = motif;
     }
 }

@@ -6,15 +6,15 @@ import java.io.Serializable;
 
 public class Motif implements Serializable {
     @SerializedName("_id")
-    private int id;
+    private String id;
     @SerializedName("libelle")
     private String libelle;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

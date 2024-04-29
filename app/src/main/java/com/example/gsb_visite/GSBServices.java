@@ -25,7 +25,5 @@ public interface GSBServices {
     @POST("visite")
     Call<VisiteRequest> createVisite(@Header("Authorization") String authorization, @Body VisiteRequest visiteRequest);
 
-    @GET("motif")
-    Call<Motif> getMotifs(@Header("Authorization") String authorization);
 
 }
