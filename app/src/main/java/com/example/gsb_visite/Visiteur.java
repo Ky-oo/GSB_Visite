@@ -16,6 +16,9 @@ public class Visiteur implements Serializable {
     private String tel;
     private String date_embauche;
 
+    @SerializedName("Responsable")
+    private Boolean Responsable;
+
     public Visiteur(String email, String password) {
         this.email = email;
         this.password = password;

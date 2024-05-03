@@ -25,5 +25,9 @@ public interface GSBServices {
     @POST("visite")
     Call<VisiteRequest> createVisite(@Header("Authorization") String authorization, @Body VisiteRequest visiteRequest);
 
+    @GET("echantillon")
+    Call<List<Echantillon>> getEchantillons(@Header("Authorization") String authorization);
 
+    @POST("visite/addEchantillon/{id}")
+    Call<Visite> addEchantillonToVisite(@Header("Authorization") String authorization, @Path("id") String id, @Body String echantillonid);
 }
